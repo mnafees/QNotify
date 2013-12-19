@@ -49,9 +49,9 @@ QNotify::QNotify( QWidget *parent ) :
     connect( animation, SIGNAL(finished()), SLOT(onFinished()) );
     
     // defaults
+    w = 300;
     x = qApp->desktop()->availableGeometry().width() - ( w + 50 );
     y = 50;
-    w = 300;
     setGeometry( x, y, w, 100 );
     showingNow = false;
 }
