@@ -1,13 +1,13 @@
-TARGET = QNotify
+TARGET = qtnotify
 TEMPLATE = lib
 
 QT += widgets core
 
 SOURCES += \
-    QNotify.cpp
+    notificationwidget.cpp
 
 HEADERS += \
-    QNotify.h
+    notificationwidget.h
 
 RESOURCES += \
     resources.qrc
