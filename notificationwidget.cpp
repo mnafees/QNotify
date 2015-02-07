@@ -26,20 +26,19 @@
  * official policies, either expressed or implied, of Mohammed Nafees.
  */
 
-// Self
-#include "QNotify.h"
+// Own includes
+#include "notificationwidget.h"
 
-// Qt
+// Qt includes
 #include <QPixmapCache>
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QPainter>
 #include <QTimer>
 
-QNotify::QNotify( QWidget *parent ) :
-    QWidget( parent )
-{
-    Q_INIT_RESOURCE( resources );
+NotificationWidget::NotificationWidget(QWidget *parent) :
+    QWidget(parent) {
+    Q_INIT_RESOURCE(resources);
     
     QPixmapCache::insert( "success.png", QPixmap( ":/success.png" ).scaledToHeight( 80, Qt::SmoothTransformation ) );
     QPixmapCache::insert( "error.png", QPixmap( ":/error.png" ).scaledToHeight( 80, Qt::SmoothTransformation ) );
@@ -56,12 +55,11 @@ QNotify::QNotify( QWidget *parent ) :
     showingNow = false;
 }
 
-QNotify::~QNotify()
-{
+NotificationWidget::~NotificationWidget() {
     QPixmapCache::clear();
 }
 
-void QNotify::setPosition( QPoint p )
+void NotificationWidget::setPosition( QPoint p )
 {
     x = p.x();
     y = p.y();
@@ -69,20 +67,20 @@ void QNotify::setPosition( QPoint p )
     repaint();
 }
 
-void QNotify::setDialogWidth( int width )
+void NotificationWidget::setDialogWidth( int width )
 {
     w = width;
     setGeometry( x, y, w, 100 );
     repaint();
 }
 
-void QNotify::adjustInViewport()
+void NotificationWidget::adjustInViewport()
 {
     x = qApp->desktop()->availableGeometry().width() - ( w + 50 );
     y = 50;
 }
 
-void QNotify::notify( QString text, NotificationType type, int duration )
+void NotificationWidget::notify( QString text, NotificationType type, int duration )
 {
     msgText = text;
     notifType = type;
@@ -97,7 +95,7 @@ void QNotify::notify( QString text, NotificationType type, int duration )
     show();
 }
 
-void QNotify::onFinished()
+void NotificationWidget::onFinished()
 {
     if ( showingNow ) {
         animation->setStartValue( QRect( x, y, w, 100 ) );
@@ -110,7 +108,7 @@ void QNotify::onFinished()
     }
 }
 
-void QNotify::paintEvent( QPaintEvent * )
+void NotificationWidget::paintEvent( QPaintEvent * )
 {
     QPainter painter( this );
     painter.setRenderHints( QPainter::HighQualityAntialiasing | QPainter::Qt4CompatiblePainting );
@@ -118,11 +116,11 @@ void QNotify::paintEvent( QPaintEvent * )
     painter.setPen( Qt::NoPen );
     painter.drawRoundedRect( 0, 0, width(), height(), 5.0, 5.0 );
     QString key;
-    if ( notifType == QNotify::SUCCESS ) {
+    if ( notifType == NotificationWidget::NotificationTypeSuccess ) {
         key = "success.png";
-    } else if ( notifType == QNotify::ERROR ) {
+    } else if ( notifType == NotificationWidget::NotificationTypeError ) {
         key = "error.png";
-    } else if ( notifType == QNotify::WARNING ) {
+    } else if ( notifType == NotificationWidget::NotificationTypeWarning ) {
         key = "warning.png";
     }
     int proposedCoord = height()/2 - QPixmapCache::find( key )->height()/2;
@@ -132,7 +130,7 @@ void QNotify::paintEvent( QPaintEvent * )
     painter.drawText( 120, 10, remainingWidth, height() - 20, Qt::AlignCenter | Qt::TextWordWrap, msgText );
 }
 
-void QNotify::mousePressEvent( QMouseEvent *mouseEvent )
+void NotificationWidget::mousePressEvent( QMouseEvent *mouseEvent )
 {
     if ( mouseEvent->buttons() == Qt::LeftButton ) {
         animation->setStartValue( QRect( x, y, w, 100 ) );

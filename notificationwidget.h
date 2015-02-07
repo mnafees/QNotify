@@ -26,38 +26,37 @@
  * official policies, either expressed or implied, of Mohammed Nafees.
  */
 
-#ifndef QNOTIFY_H
-#define QNOTIFY_H
+#pragma once
 
-// Qt
+// Qt includes
 #include <QWidget>
 #include <QPropertyAnimation>
 #include <QMouseEvent>
 
-class QNotify : public QWidget
+class NotificationWidget : public QWidget
 {
     Q_OBJECT
 public:
     enum NotificationType {
-        SUCCESS,
-        ERROR,
-        WARNING
+        NotificationTypeSuccess,
+        NotificationTypeError,
+        NotificationTypeWarning
     };
     
-    explicit QNotify( QWidget *parent );
-    ~QNotify();
+    explicit NotificationWidget(QWidget *parent = 0);
+    ~NotificationWidget();
     
-    void setPosition( QPoint p );
-    void setDialogWidth( int width );
+    void setPosition(QPoint p);
+    void setDialogWidth(int width);
     void adjustInViewport();
-    void notify( QString text, NotificationType type, int duration = 1000 );
+    void notify(QString text, NotificationType type, int duration = 1000);
     
 private slots:
     void onFinished();
     
 protected:
-    virtual void paintEvent( QPaintEvent * );
-    virtual void mousePressEvent( QMouseEvent *mouseEvent );
+    virtual void paintEvent(QPaintEvent *);
+    virtual void mousePressEvent(QMouseEvent *mouseEvent);
     
 private:
     QPropertyAnimation *animation;
@@ -69,5 +68,3 @@ private:
     NotificationType notifType;
     int keepDuration;
 };
-
-#endif
