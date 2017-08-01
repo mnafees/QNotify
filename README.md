@@ -1,5 +1,5 @@
-QNotify
-=======
+QNotify [NOT MAINTAINED]
+========================
 
 A notification framework for Qt C++ applications<br>
 <img src="https://dl.dropboxusercontent.com/u/50262219/Screen%20Shot%202013-12-19%20at%2010.37.11%20pm.png" style="margin: 0 auto; width: 300px;">
